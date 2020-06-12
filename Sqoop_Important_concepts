@@ -1,0 +1,78 @@
+==============================
+Questions
+
+split-by
+Incremental load
+File format type
+null value
+exclude-tables
+queries
+num-mapper
+map-column-java
+map-column-hive
+Connector selections
+How to get bounday values - upper & Lower limit
+
+
+===================================================================================	
+Import as Binary Files – Avro/Parquet
+Similar to the –as-textfile parameter, import tool has parameters to import the data in binary formats – Avro and Parquet.
+
+Avro: –as-avrodatafile
+Parquet: –as-parquetfile
+	
+	
+Sqoop import with Hcatalog Integration
+hive> create database orc_db location "hdfs:///user/cloudera/import_example/orc/";
+
+$ sqoop import \
+    --connect jdbc:mysql://localhost/retail_db \
+    --username root \
+    --password cloudera \
+    --table departments \
+    --num-mappers 1 \
+    --hcatalog-database orc_db \
+    --hcatalog-table departments \
+    --create-hcatalog-table \
+    --hcatalog-storage-stanza "stored as orcfile"
+	
+=====================================================================================
+
+Filed delimeter options
+=================================================
+--fields-terminated-by '|' \ 
+--lines-terminated-by "\n" \ 
+=========================================
+
+Handle data type conversion issue by Changing the data type mapping in sqoop.
+    --map-column-java <mapping> Override mapping from SQL to Java type for configured columns.
+    --map-column-hive <mapping> Override mapping from SQL to Hive type for configured columns.
+
+
+===================================================================
+Import All tables
+
+sqoop import-all-tables --connect “jdbc:mysql://nn01.itversity.com:3306/retail_db” 
+–username retail_dba 
+–password itversity 
+–hive-import 
+–hive-database rgex12 
+–as-textfile 
+–fields-terminated-by ‘|’
+
+======================================================
+How can i reset value of --last-value in case of corrupt data coming into hive and need to be deleted then reload
+
+
+
+
+
+=============================
+To Handle Null values
+
+As we know that ,hive stores any NULL value as “\n “ in HDFS.
+So while doing sqoop we have to handle NULL value using the same parameter in sqoop command .
+$ sqoop import  … –null-string ‘\\N’ –null-non-string ‘\\N’
+So final sqoop import command will be as below:–
+sqoop import –connect jdbc:mysql://localhost:3306/sqoop –username sqoop -P –table cities –hive-import –hive-overwrite –null-string ‘\\N’ –null-non-string ‘\\N’ –hive-table vikas.cities -m 1
+======================================================
