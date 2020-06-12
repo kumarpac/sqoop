@@ -1,0 +1,21 @@
+Best practices for Sqoop
+===============================
+Use standard connector for connecting with different source systems
+Avoid direct data ingestion into production table;Follow staging location/Intermediate location to import the data into production table
+Determine boundary values for sqoop import, the lower bound and upper bound values, supply these values for better performance
+Supply necessary output formatting  options such as --fields-terminated-by, --enclosed-by,--escaped_by
+Set appropriate degree of parallelism suing -m option, for small table -m 1 is ideal fit.
+When sqooping data into hive tables use dynamic partitions
+Make script resuable by using an options file option
+Make debugging simpilar by using --verbose command in the script
+Know the limitaion of Sqoop
+     - BLOB, CLOB data import
+Handle data type conversion issue by Changing the data type mapping in sqoop.
+    --map-column-java <mapping> Override mapping from SQL to Java type for configured columns.
+    --map-column-hive <mapping> Override mapping from SQL to Hive type for configured columns.
+
+It is suggested not to use a greater value that 4 as this might occupy the entire spool space of the database
+
+Handle null values 
+
+Latest stable release is 1.4. 7
